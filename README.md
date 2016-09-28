@@ -51,3 +51,50 @@ If you want your images to be publicly accessible (if you want to share them wit
 cd kurtz-kloud
 npm start
 ```
+
+### Start at Boot
+#### In OS X / MacOS
+Make a file in your `~/Library/LaunchAgents` folder called something like `com.github.ltk.kurtz-kloud.plist` with the following contents:
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+	<dict>
+		<key>Label</key>
+		<string>com.github.ltk.kurtz-cloud</string>
+
+		<key>ProgramArguments</key>
+		<array>
+		        <!-- Or wherever your npm binary is located -->
+			<string>/usr/local/bin/npm</string>
+			<string>start</string>
+		</array>
+
+		<key>WorkingDirectory</key>
+		<!-- Replace this with wherever you cloned the repo to -->
+		<string>/Users/[ME]/Applications/kurtz-kloud</string>
+
+		<key>KeepAlive</key>
+		<true />
+
+		<key>RunAtLoad</key>
+		<true />
+
+		<key>EnvironmentVariables</key>
+		<dict>
+			<key>PATH</key>
+			<string>/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin</string>
+		</dict>
+
+		<key>StandardOutPath</key>
+		<string>/dev/null</string>
+
+		<key>StandardErrorPath</key>
+		<!-- Or wherever you want errors logged to -->
+		<string>/Users/[ME]/Library/Logs/kurtz-kloud.err.log</string>
+	</dict>
+</plist>
+```
+
+Save this and run `launchctl load ~/Library/LaunchAgents/com.github.ltk.kurtz-kloud.plist`.
